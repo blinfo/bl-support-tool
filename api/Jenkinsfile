@@ -1,0 +1,94 @@
+pipeline {
+  agent any
+  stages {
+    stage('Download Dependencies') {
+      steps {
+        sh "docker image build --target resolve -t ${APP_IMAGE}:latest ."
+      }
+    }
+    stage('Build package') {
+      steps {
+        sh "docker image build --target package -t ${APP_IMAGE}:latest ."
+      }
+    }
+    stage('Building image') {
+      steps {
+      	sh "docker image build --target app -t ${APP_IMAGE}:latest ."
+      }
+    }
+    stage('Tagging image')
+    {
+      parallel {
+        stage('release') {
+          when {
+            beforeAgent true
+            tag 'v*'
+          }
+          steps {
+            script {
+              TAG="${TAG_NAME}"
+            }
+            sh "docker image tag ${APP_IMAGE}:latest ${APP_IMAGE}:${TAG}"
+          }
+        }
+        stage('NON release') {
+          when {
+            beforeAgent true
+            not {
+              tag 'v*'
+            }
+          }
+          steps {
+            script {
+              TAG="${BRANCH_NAME}"
+            }
+            sh "docker image tag ${APP_IMAGE}:latest ${APP_IMAGE}:${TAG}"
+          }
+        }
+      }
+    }
+    stage('Pushing image') {
+      environment {
+        DOCKER_PUSH = credentials('docker-credentials')
+      }
+      steps {
+        sh 'echo ${DOCKER_PUSH_PSW} | docker login ${IMAGE_REGISTRY} -u ${DOCKER_PUSH_USR} --password-stdin'
+        sh "docker image push ${APP_IMAGE}:${TAG}"
+        sh "docker image push ${APP_IMAGE}:latest"
+      }
+    }
+    stage ('Deploy') {
+      when {
+        beforeAgent true
+        anyOf{
+          allOf {
+            branch 'master'
+            tag 'v*'
+          }
+          expression {
+          return params.target == 'prod'
+          }
+        }
+      }
+      steps {
+        echo 'deploying to prod'
+        sh "docker run --rm ${ELASTX_TOOLS} redeploy ${ELASTX_CREDENTIALS_USR} ${ELASTX_CREDENTIALS_PSW} ${ENV_NAME_PROD} ${API_NODE_ID_PROD} ${TAG}"
+      }
+    }
+  }
+
+  environment {
+    IMAGE_REGISTRY = 'docker.repos.blinfo.se'
+    APP_IMAGE = "${IMAGE_REGISTRY}/blinfo/blapp-support-api"
+    ELASTX_TOOLS = "${IMAGE_REGISTRY}/blinfo/elastx-tools"
+    ENV_NAME_PROD = 'env-6961485'
+    API_NODE_ID_PROD = '85678'
+    ELASTX_CREDENTIALS = credentials('drift-elastx')
+  }
+  parameters {
+    choice(
+    name: 'target',
+    choices: ['no-deploy','prod'],
+    description: 'Where to deploy the build.' )
+  }
+}
