@@ -1,0 +1,46 @@
+<nav class="flex flex-col text-bl-grey-300 mt-2 md:mt-4 relative" id="main-list">
+  <div class="main-slider"></div>
+
+  <ol class="list-reset">
+    <li
+      *ngFor="let menu of menuItems$ | async; trackBy: trackByFn"
+      class="py-1 "
+      [ngClass]="{ 'text-center': !isExpanded }"
+      routerLinkActive="activeMenuState"
+      #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: menu.path === '/' }"
+    >
+      <a
+        [ngClass]="{
+          'justify-start pl-5': isExpanded || screenWidth < 768,
+          'justify-center px-5': !isExpanded && screenWidth > 768
+        }"
+        class="nav-menu-items relative py-2"
+        [routerLink]="menu.path"
+        style="transition: all 0.1s ease-out;"
+        [attr.id]="rla.isActive ? 'activeMenuState' : ''"
+      >
+        <span
+          matTooltip="{{ menu.displayName }}"
+          matTooltipPosition="after"
+          [matTooltipDisabled]="isExpanded || screenWidth < 768"
+          [matBadgeHidden]="isExpanded || screenWidth < 768 || !hasBadgeValue(menu)"
+          [matBadge]="getBadgeValue(menu)"
+        >
+          <div class="w-6 pt-1">
+            <i class="fal {{ menu.icon }} min-h-6" [ngClass]="{ fas: rla.isActive }"></i>
+          </div>
+        </span>
+        <span
+          class="mx-2"
+          *ngIf="isExpanded || screenWidth < 768"
+          matBadgeOverlap="false"
+          [matBadgeHidden]="!hasBadgeValue(menu)"
+          [matBadge]="getBadgeValue(menu)"
+        >
+          {{ menu.displayName }}</span
+        >
+      </a>
+    </li>
+  </ol>
+</nav>

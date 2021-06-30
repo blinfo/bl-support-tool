@@ -1,0 +1,19 @@
+@media (min-width: 1354px) {
+  .grid-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
+@media (min-width: 1354px) {
+  .header-item:nth-child(odd) {
+    border-right: 1px solid #dfdfdf;
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 1354px) {
+  .header-item:nth-child(even) {
+    margin-left: 1rem;
+  }
+}

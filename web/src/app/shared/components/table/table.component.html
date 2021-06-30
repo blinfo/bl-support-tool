@@ -1,0 +1,115 @@
+<div class="relative w-full flex flex-col">
+  <div class="flex flex-col w-full bg-white rounded-lg shadow text-sm font-medium mb-5">
+    <div class="px-5 pt-5 flex flex-col">
+      <ng-content select="[filterContent]"></ng-content>
+    </div>
+    <ngx-datatable
+      class="antialiased"
+      [rows]="dataSource"
+      [columnMode]="columnMode.flex"
+      [externalPaging]="true"
+      [count]="(pageInfo$ | async)?.totalRows"
+      [offset]="pageNumber"
+      [selected]="selected"
+      (page)="loadPage($event)"
+      [rowHeight]="isMobileView ? mobileRowHeight : 60"
+      [footerHeight]="'auto'"
+      [headerHeight]="screenWidth <= 768 ? 0 : 60"
+      [reorderable]="true"
+      (select)="onSelect($event)"
+      (activate)="onActivate($event)"
+      [selectionType]="selectionType"
+      [messages]="tableMessage"
+      (sort)="onSort($event)"
+      [sorts]="getInitSortOrderObservable() | async"
+    >
+      <!-- checkbox column -->
+      <ngx-datatable-column
+        *ngIf="isCheckboxTableSelectionType"
+        [width]="30"
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+      >
+        <ng-template ngx-datatable-header-template> </ng-template>
+        <ng-template
+          ngx-datatable-cell-template
+          let-value="value"
+          let-isSelected="isSelected"
+          let-onCheckboxChangeFn="onCheckboxChangeFn"
+        >
+          <div>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="form-checkbox text-bl-orange-500 hover:shadow-orange mx-1 h-4 w-4"
+                [checked]="isSelected"
+                (change)="onCheckboxChangeFn($event)"
+              />
+            </label>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+      <!-- end - checkbox column -->
+
+      <ng-container *ngFor="let column of displayedColumns">
+        <ngx-datatable-column
+          [flexGrow]="column.columnWidth"
+          [draggable]="true"
+          [resizeable]="false"
+          name="{{ column.header }}"
+          prop="{{ column.sortKey }}"
+        >
+          <ng-template ngx-datatable-header-template let-sort="sortFn">
+            <div
+              (click)="column.sortKey ? sort($event) : ''"
+              class="text-bl-grey-500 truncate {{ column.headerClass }}"
+              [ngClass]="column.sortKey ? 'cursor-pointer' : ''"
+            >
+              {{ column.header }}
+            </div>
+          </ng-template>
+
+          <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <div id="{{ rowIndex }}">
+              <ng-container
+                [ngTemplateOutlet]="column.templateRef"
+                [ngTemplateOutletContext]="{ $implicit: row }"
+              ></ng-container>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ng-container>
+      <ngx-datatable-footer>
+        <ng-template ngx-datatable-footer-template>
+          <div
+            *ngIf="!hidePaginator && !tableMessage?.emptyMessage"
+            class="border-t border-bl-grey-200 w-full py-3 px-6"
+          >
+            <app-paginator
+              [pageInfo$]="pageInfo$"
+              [hidePagination]="screenWidth < 768"
+              [isMobileView]="this.isMobileView"
+              (pageEmitter)="loadPage($event)"
+            >
+            </app-paginator>
+          </div>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+  </div>
+  <!-- flytande extra fotkomponentent -->
+  <div
+    *ngIf="customFooterComponent?.visible && !!customFooterTemplateRef"
+    class="bottom-0 w-full sticky"
+  >
+    <app-bl-table-inner-custom-footer
+      [showMobileView]="isMobileView"
+      [whiteBackgroundOnMobile]="customFooterComponent?.whiteBackgroundOnMobile"
+      @ngIfAnimation
+    >
+      <ng-container *ngTemplateOutlet="customFooterTemplateRef"></ng-container>
+    </app-bl-table-inner-custom-footer>
+  </div>
+</div>

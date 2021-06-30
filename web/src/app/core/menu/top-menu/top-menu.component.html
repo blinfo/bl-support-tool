@@ -1,0 +1,79 @@
+<button *ngIf="screenWidth > 768"
+  style="transition: all 0.2s ease-in-out; z-index: 3000"
+  class="flex fixed pin-y focus:outline-none text-base px-2 opacity-0 hover:opacity-100 border-l-4 border-bl-blue-light-500"
+  (click)="onToggleMenuClick()"
+>
+  <div class="fixed top-0 mt-2">
+    <div
+      class="flex items-center justify-center rounded-full text-bl-blue-light-500 bg-white shadow-md h-6 w-6 -ml-5"
+    >
+      <i *ngIf="isExpanded" class="fas fa-chevron-left fa-xs"></i>
+      <i *ngIf="!isExpanded" class="fas fa-chevron-right fa-xs"></i>
+    </div>
+  </div>
+</button>
+
+<nav class="border-b-2 border-bl-grey-200 md:border-none py-2">
+  <div class="flex justify-between md:justify-end items-center mx-4">
+    <button class="md:hidden focus:outline-none" (click)="openNav()">
+      <i class="fal fa-bars text-2xl text-bl-grey-900"></i>
+    </button>
+    <div class="flex items-center">
+      <ng-container *ngIf="user$ | async as user; else loginSection">
+        <app-bl-dropdown
+          [items]="environments"
+          [value]="selectedEnvironment$ | async"
+          (valueChange)="onEnvironmentSelect($event)"
+          [titleClass]="'text-base font-medium'"
+        >
+        </app-bl-dropdown>
+
+        <div
+          class="flex items-center border-l border-bl-grey-200 pl-2"
+        >
+          <app-bl-dropdown
+            [items]="dropDownOptions"
+            [hover]="true"
+            (valueChange)="selectedOption($event)"
+          >
+            <ng-template appDropdownRootNotSelected>
+              <section class="text-bl-grey-900 cursor-pointer h-12">
+                <ng-container *ngIf="user?.photo; else noPicture">
+                  <img
+                    [src]="user.photo | urlSafe"
+                    class="rounded-full h-8 md:h-10 w-8 md:w-10 shadow-sm"
+                    appAvatarFallback="profile-s"
+                  />
+                </ng-container>
+                <ng-template #noPicture>
+                  <i
+                    class="rounded-full fas fa-user-circle text-bl-grey-400 text-4xl"
+                    style="padding-top: 6px"
+                  ></i>
+                </ng-template>
+              </section>
+            </ng-template>
+            <ng-template appDropdownHeader>
+              <section #dropDownHeaderRef>
+                <img
+                  *ngIf="user?.photo"
+                  class="rounded-t w-56 h-48 relative user-dropdown-item"
+                  [src]="user.photo | urlSafe"
+                  appAvatarFallback
+                />
+                <div class="flex flex-col border-b border-bl-grey-200 px-4 py-3">
+                  <p class="text-sm font-medium text-bl-grey-900 pb-1">{{ user.name }}</p>
+                  <p class="text-sm font-normal text-bl-grey-500 truncate pb-1">{{ user.email }}</p>
+                  <p class="text-sm font-normal text-bl-grey-500 truncate">{{ getRolesAsDropDownItem(user.roles) }}</p>
+                </div>
+              </section>
+            </ng-template>
+          </app-bl-dropdown>
+        </div>
+      </ng-container>
+      <ng-template #loginSection>
+        <button class="bl-button bl-button-primary" (click)="login()">Logga in</button>
+      </ng-template>
+    </div>
+  </div>
+</nav>

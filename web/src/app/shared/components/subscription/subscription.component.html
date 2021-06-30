@@ -1,0 +1,28 @@
+<ng-container>
+  <section class="flex flex-row flex-wrap">
+    <div *ngIf="selectedSubscription?.solution" class="w-1/3">
+      <div class="bg-white my-2 mr-4 p-4 rounded-lg shadow flex flex-row">
+        <div
+          class="bg-bl-grey-100 flex items-center rounded-full w-8 h-8"
+          style="margin-top: -5px"
+        >
+          <p class="text-xs m-auto">
+            {{ selectedSubscription.solution.displayName.slice(0, 1) }}
+          </p>
+        </div>
+        <span class="m-auto">{{ selectedSubscription.solution.displayName }}</span>
+      </div>
+    </div>
+    <div class="w-1/3" *ngFor="let module of selectedSubscription?.modules">
+      <div class="bg-white my-2 mr-4 p-4 rounded-lg shadow flex flex-row">
+        <div
+          class="bg-bl-grey-100 flex items-center justify-center rounded-full w-8 h-8"
+          style="margin-top: -5px"
+        >
+          <i class="fal {{ module.icon }} text-bl-grey-500"></i>
+        </div>
+        <span class="m-auto">{{ module.displayName }}</span>
+      </div>
+    </div>
+  </section>
+</ng-container>

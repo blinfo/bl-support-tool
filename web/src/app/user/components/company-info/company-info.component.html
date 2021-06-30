@@ -1,0 +1,53 @@
+<div
+  *ngIf="company$ | async as company"
+  class="flex flex-col md:flex-row my-5 pt-5 border-t border-bl-grey-200"
+>
+  <div class="w-full md:w-1/2">
+    <div class="text-bl-grey-900 font-medium text-lg flex z-0">
+      <span class="mr-2">Företagsinfo</span>
+      <app-secret-popup
+        *ngIf="hasAccessToSecretMenu$ | async"
+        [icon]="'far fa-user-secret'"
+        [publicKey]="company.publicKey"
+        [email]="company.email"
+      ></app-secret-popup>
+    </div>
+    <div class="text-bl-grey-500 font-normal text-sm">
+      Här ser du information om det valda företaget
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 pl-5 flex flex-col text-sm">
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ publicKeyText }}</div>
+      <div class="text-bl-grey-900">{{ company.publicKey }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ idText }}</div>
+      <div class="text-bl-grey-900">{{ company.id }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ emailText }}</div>
+      <div class="text-bl-grey-900">{{ company.email }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ orgNumberText }}</div>
+      <div class="text-bl-grey-900">{{ company.orgNumber }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ hostIdText }}</div>
+      <div class="text-bl-grey-900">{{ company.hostId }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ firmCustomerNumberText }}</div>
+      <div class="text-bl-grey-900">{{ company.firmCustomerNumber }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ allocatingCustomerNumberText }}</div>
+      <div class="text-bl-grey-900">{{ company.allocatingCustomerNumber }}</div>
+    </div>
+    <div class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ payingCustomerNumberText }}</div>
+      <div class="text-bl-grey-900">{{ company.payingCustomerNumber }}</div>
+    </div>
+  </div>
+</div>

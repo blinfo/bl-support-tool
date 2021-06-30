@@ -1,0 +1,19 @@
+<main class="ng-star-inserted pb-3">
+  <form class="w-full flex" [formGroup]="searchForm" (ngSubmit)="onSubmit()" novalidate>
+    <input
+      formControlName="text"
+      type="search"
+      class="bl-input w-full rounded-lg mr-2"
+      [placeholder]="'Sök'"
+    />
+    <div *ngIf="items?.length > 0" class="bl-input w-96 mr-2">
+      <app-bl-dropdown
+        class="w-full"
+        [items]="items"
+        [(value)]="selected"
+        (valueChange)="setRequestType($event)"
+      ></app-bl-dropdown>
+    </div>
+    <button type="submit" class="bl-button bl-button-primary">Sök</button>
+  </form>
+</main>

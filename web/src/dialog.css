@@ -1,0 +1,47 @@
+.dialog-container .mat-dialog-container {
+  margin: 0;
+  padding: 0;
+  max-width: 100%;
+}
+
+.cdk-overlay-container {
+  z-index: 100 !important;
+}
+
+.cdk-overlay-pane {
+  justify-content: flex-end !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  visibility: hidden !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: unset !important;
+}
+
+.mat-form-field-infix {
+  padding: unset !important;
+  border-top: unset !important;
+}
+
+.mat-form-field-flex {
+  display: inline-flex;
+  align-items: unset !important;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+  white-space: nowrap;
+  flex: none;
+  position: relative;
+  padding-top: 0.25rem;
+}
+
+.mat-form-field-hide-placeholder .mat-input-element::placeholder {
+  --text-opacity: 1 !important;
+  color: #6b7280 !important;
+  color: rgba(107, 114, 128, var(--text-opacity)) !important;
+}

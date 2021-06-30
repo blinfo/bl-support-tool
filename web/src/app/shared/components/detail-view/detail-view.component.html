@@ -1,0 +1,21 @@
+<div *ngIf="detailData$ | async as content" class="my-2">
+  <div class="text-bl-grey-900 text-lg font-medium leading-6 mb-2">{{ content.title }}</div>
+  <div class="flex md:flex-row flex-col items-start md:pr-0 pr-2">
+    <div class="md:w-1/2 flex flex-col md:pr-3 w-full md:border-r border-bl-grey-200">
+      <div class="flex py-2 text-sm justify-between" *ngFor="let item of content.column_1">
+        <div class="text-bl-grey-500">{{ item.description }}</div>
+        <div class="text-bl-grey-900 text-right">
+          <p>{{ item.value }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="md:w-1/2 flex flex-col w-full md:ml-3">
+      <div class="flex py-2 text-sm justify-between" *ngFor="let item of content.column_2">
+        <div class="text-bl-grey-500">{{ item.description }}</div>
+        <div class="text-bl-grey-900 text-right">
+          <p>{{ item.value }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

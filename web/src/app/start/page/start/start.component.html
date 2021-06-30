@@ -1,0 +1,33 @@
+<div class="pt-12 h-full w-full flex flex-col" *ngIf="user$ | async">
+  <div class="flex shadow rounded bg-white p-5">
+    <div class="flex flex-col border-r border-bl-grey-200 pr-5">
+      <div class="text-center text-bl-grey-600 font-medium text-lg">Unika inloggningar idag</div>
+      <div class="text-center font-semibold text-3xl m-auto">
+        {{ loginCount$ | async }}
+      </div>
+    </div>
+    <div class="flex flex-col border-r border-bl-grey-200 ml-5 pr-5">
+      <div class="text-center text-bl-grey-600 font-medium text-lg">Nya användare idag</div>
+      <div class="text-center font-semibold text-3xl m-auto">
+        {{ createdCount$ | async }}
+      </div>
+    </div>
+    <div class="flex flex-col border-r border-bl-grey-200 ml-5 pr-5">
+      <div class="text-center text-bl-grey-600 font-medium text-lg">Totalt i {{month}}</div>
+      <div class="text-center font-semibold text-3xl m-auto">
+        {{ createdCountOfMonth$ | async }}
+      </div>
+    </div>
+  </div>
+  <div class="w-full h-full mt-2">
+    <div class="w-full flex justify-center font-medium text-bl-grey-600 text-lg mt-5">
+      <span>Nya användare</span>
+    </div>
+    <div class="w-full flex justify-center text-lg">
+      <i class="cursor-pointer my-auto fas fa-chevron-left fa-xs" (click)="setMonth(selectedMonth.subtract(1, 'M'))"></i>
+      <span class="mx-5">{{ month | uppercase }} {{ year }}</span>
+      <i *ngIf="!isCurrentMonth()" class="cursor-pointer my-auto fas fa-chevron-right fa-xs" (click)="setMonth(selectedMonth.add(1, 'M'))"></i>
+    </div>
+    <app-chart [chartData$]="chartNewUsersData$" [colorScheme]="colorScheme"></app-chart>
+  </div>
+</div>

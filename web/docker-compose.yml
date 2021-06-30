@@ -1,0 +1,42 @@
+version: '3.4'
+
+services:
+  web:
+    # image: blinfo/blapp-web:BLAPP-653-dabd682aae177c032febbc0ea16ec78b2d8fb19a
+    image: docker.repos.blinfo.se/blinfo/blapp-web
+    build:
+      context: .
+      target: build-stage
+      args:
+        configuration:
+    volumes:
+      - ./src/:/usr/src/app/src
+    ports:
+      - 80:80
+      - 4200:4200
+      - 49153:49153
+    depends_on:
+      - api
+
+  api:
+    image: docker.repos.blinfo.se/blinfo/blapp-api
+    #environment:
+    #  JAVA_OPTS: -Ddatabase.host=node71343-blapp-dev-app.jls-sto1.elastx.net:11071 -Dgateway.api.env=https://apigateway.blinfo.se/test/bla-api/v11/sp/ -Dgateway.api.version=1
+    env_file:
+      - variables.conf
+    ports:
+      - 8084:8080
+
+  # db:
+  #   image: blinfo/blapp-db
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: root
+  #     MYSQL_DATABASE: blapp
+  #     MYSQL_USER: blapp
+  #     MYSQL_PASSWORD: bl4pp1t15
+  #   volumes:
+  #     - db-data:/var/lib/mysql
+  #   ports:
+  #     - 3306:3306
+volumes:
+  db-data:

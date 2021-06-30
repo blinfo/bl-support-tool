@@ -1,0 +1,65 @@
+<app-bl-snackbar></app-bl-snackbar>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-spin"
+  [fullScreen]="true"
+  ><p class="text-white font-normal text-base">Laddar...</p></ngx-spinner
+>
+
+<mat-sidenav-container class="h-screen" autosize>
+  <mat-sidenav
+    #navMenu
+    [position]="'start'"
+    [ngStyle]="{
+      'z-index': screenWidth > 768 ? '-1' : '50',
+      display: hideNavBar ? 'none' : 'block'
+    }"
+    [opened]="screenWidth > 768"
+    [mode]="screenWidth > 768 ? 'side' : 'over'"
+    class="sidenav-wrapper relative"
+    [ngClass]="{ 'side-nav-expanded': screenWidth > 1024 && isExpanded }"
+  >
+    <div
+      class="flex flex-wrap align-middle content-center justify-between"
+      [ngClass]="{
+        'm-1 mt-4 mb-6': !isExpanded && screenWidth > 768,
+        'm-6 mb-12': isExpanded || screenWidth < 768
+      }"
+    >
+      <a
+        [routerLink]="['/']"
+        class="block"
+        [ngClass]="{ 'w-full text-center': !isExpanded && screenWidth > 768 }"
+      >
+        <ng-container *ngIf="isExpanded || screenWidth < 768; else minimized">
+          <img src="/assets/images/bjornlunden_2rad_w_op.png" class="h-12 md:h-14 md:m-auto" />
+        </ng-container>
+        <ng-template #minimized>
+          <img src="/assets/images/bl-round.png" class="h-auto inline" />
+        </ng-template>
+      </a>
+    </div>
+
+    <app-main-menu [isExpanded]="isExpanded" [screenWidth]="screenWidth"></app-main-menu>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-top-menu
+      [nav]="nav"
+      [screenWidth]="screenWidth"
+      [isExpanded]="isExpanded"
+      [user$]="user$"
+      (toggleMenuChange)="toggleMenu()"
+    ></app-top-menu>
+    <div class="overflow-hidden flex w-full justify-center">
+      <div class="p-5 max-w-9xl w-full">
+        <div class="mb-10">
+          <app-sub-menu></app-sub-menu>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

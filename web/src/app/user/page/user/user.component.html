@@ -1,0 +1,24 @@
+<main class="flex flex-col h-full mb-5">
+  <app-user-details [user]="user" (userEvent)="onUserChange($event)"></app-user-details>
+  <div *ngIf="connections$ | async as connections" class="w-full">
+    <div
+      *ngIf="connections.length > 1"
+      class="w-full border-t border-bl-grey-200 pt-5 flex justify-center"
+    >
+      <app-bl-dropdown
+        class="w-1/2 bg-white rounded-lg shadow p-2"
+        [items]="connections"
+        [value]="selectedConnection"
+        (valueChange)="onConnectionSelect($event)"
+        [titleClass]="'text-base font-medium'"
+      >
+      </app-bl-dropdown>
+    </div>
+  </div>
+
+  <div *ngIf="selectedConnection?.compareValue" class="h-full">
+    <app-company-info></app-company-info>
+    <app-user-subscription [userSubscription$]="userSubscription$"></app-user-subscription>
+    <app-user-right [connection]="selectedConnection.value"></app-user-right>
+  </div>
+</main>

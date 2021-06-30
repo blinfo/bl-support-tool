@@ -1,0 +1,14 @@
+<main class="flex flex-col md:flex-row my-5 pt-5 border-t border-bl-grey-200">
+  <div class="w-full md:w-1/2">
+    <div class="text-bl-grey-900 font-medium text-lg">{{ card.title }}</div>
+    <div class="text-bl-grey-500 font-normal text-sm">
+      {{ card.description }}
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 flex flex-col text-sm text-bl-grey-900">
+    <div *ngFor="let content of card.contents" class="justify-between flex py-2">
+      <div class="text-bl-grey-500 capitalize">{{ content.name }}</div>
+      <div [outerHTML]="content.value | booleanChecked"></div>
+    </div>
+  </div>
+</main>

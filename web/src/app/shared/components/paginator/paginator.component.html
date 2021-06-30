@@ -1,0 +1,58 @@
+<main class="w-full flex flex-col">
+  <button
+    *ngIf="isMobileView && canLoadMoreItems()"
+    class="mb-3 bl-button bl-button-secondary"
+    (click)="onPageChange(this.currentPage + 1)"
+  >
+    <span class="font-normal">Ladda fler</span>
+  </button>
+  <div *ngIf="!hideRowCount" class="flex flex-row justify-around md:justify-between w-full">
+    <span class="font-normal text-bl-grey-700 text-sm my-auto">
+      Visar <span class="font-medium">{{ currentRows }}</span> av
+      <span class="font-medium">{{ totalRows }}</span> resultat
+    </span>
+    <nav
+      *ngIf="totalPages > 1 && !hidePagination"
+      class="inline-flex shadow-sm text-sm font-medium text-bl-grey-500 rounded-full border border-bl-grey-200"
+      aria-label="Pagination"
+    >
+      <span
+        (click)="onPageChange(currentPage - 1)"
+        class="px-4 py-2 border-r border-bl-grey-200 hover:bg-bl-grey-100 rounded-l-full cursor-pointer"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </span>
+      <div
+        class="px-4 py-2 border-r border-bl-grey-200 hover:bg-bl-grey-100 cursor-pointer"
+        [ngClass]="{ 'bg-bl-grey-100': currentPage === 1 }"
+        (click)="onPageChange(1)"
+      >
+        <span>1</span>
+      </div>
+      <div
+        *ngFor="let page of pager"
+        class="px-4 py-2 border-r border-bl-grey-200"
+        [ngClass]="{ 'bg-bl-grey-100': page.number === currentPage }"
+        [className]="page.class"
+        (click)="onPageChange(page.number)"
+        [innerHTML]="page.innerHTML"
+      >
+        <!--        <span>{{ page }}</span>-->
+      </div>
+      <div
+        *ngIf="totalPages > 1"
+        class="px-4 py-2 border-r border-bl-grey-200 hover:bg-bl-grey-100 cursor-pointer"
+        [ngClass]="{ 'bg-bl-grey-100': currentPage === totalPages }"
+        (click)="onPageChange(totalPages)"
+      >
+        <span>{{ totalPages }}</span>
+      </div>
+      <span
+        (click)="onPageChange(currentPage + 1)"
+        class="px-4 py-2 hover:bg-bl-grey-100 rounded-r-full cursor-pointer"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </span>
+    </nav>
+  </div>
+</main>

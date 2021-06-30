@@ -1,0 +1,120 @@
+<div
+  class="min-h-6 w-full"
+  [ngClass]="{
+    'h-12 min-h-12': isButton,
+    'min-w-12': !isMultirowDropdown
+  }"
+>
+  <div
+    #rootRef
+    (click)="showMenu()"
+    class="root min-h-6 flex"
+    [ngClass]="{
+      'h-12 min-h-12': isButton,
+      'min-w-12': !isMultirowDropdown
+    }"
+  >
+    <ng-container *ngTemplateOutlet="rootTemplate; context: dropdownRootTplContext"> </ng-container>
+  </div>
+
+  <div
+    #menuRef
+    appMouseListener
+    (mouseEnter)="onMenuRefMouseEnter()"
+    (mouseLeave)="onMenuRefMouseLeave()"
+    class="
+      option-container
+      text-sm
+      font-normal
+      text-bl-grey-700
+      border border-bl-grey-200
+      bg-white
+      shadow-lg
+      rounded-md
+      w-56
+      transition
+      ease-out
+      duration-100
+      opacity-0
+    "
+    [ngClass]="
+      !isShowingMenu
+        ? 'transition ease-in duration-75 opacity-0 invisible'
+        : items.length === 0
+        ? 'invisible'
+        : 'opacity-100 visible'
+    "
+  >
+    <ng-container *ngTemplateOutlet="headerTpl"></ng-container>
+    <cdk-virtual-scroll-viewport
+      #virtualScrollRef
+      [itemSize]="listItemHeight"
+      minBufferPx="200"
+      maxBufferPx="400"
+      class="py-1"
+      [ngStyle]="virtualScrollStyle"
+      (scroll)="onVirtualScrollRefScroll($event)"
+    >
+      <div
+        [matTooltip]="item.readOnly ? 'Verifikationen är låst.' : null"
+        *cdkVirtualFor="let item of items; trackBy: trackByKey"
+        (click)="onMenuItemClicked(item)"
+        class="flex items-center"
+        [ngClass]="{
+          'cursor-default, text-bl-grey-400': item.readOnly,
+          'cursor-pointer hover:bg-bl-grey-100 hover:text-bl-grey-900 focus:outline-none focus:bg-bl-grey-100 focus:text-bl-grey-900':
+            !item.readOnly,
+          'bg-bl-grey-100 text-bl-grey-900 highlighted-item':
+            !!highlightedItem && isMatchingItems(highlightedItem, item)
+        }"
+        [class.selected]="!!value && isMatchingItems(item, value)"
+      >
+        <div
+          class="flex px-4 py-2 w-full"
+          [ngClass]="item.borderTop ? 'border-t border-bl-grey-200' : ''"
+        >
+          <ng-container
+            *ngTemplateOutlet="optionTemplate(item); context: { $implicit: item }"
+          ></ng-container>
+        </div>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+</div>
+<ng-template #defaultRootNotSelectedTpl>
+  <div class="w-full flex flex-row items-center justify-between">
+    <div class="text-sm font-medium text-bl-grey-700">Välj ett värde</div>
+    <i class="mx-2" [ngClass]="isShowingMenu ? 'far fa-chevron-up' : 'far fa-chevron-down'"></i>
+  </div>
+</ng-template>
+
+<ng-template #defaultRootSelectedTpl let-selectedItem>
+  <div class="w-full flex flex-row items-center justify-between">
+    <div [class]="titleClass">
+      {{ selectedItem.title }}
+    </div>
+    <i class="mx-2" [ngClass]="isShowingMenu ? 'far fa-chevron-up' : 'far fa-chevron-down'"></i>
+  </div>
+</ng-template>
+
+<ng-template #defaultOptionTpl let-item>
+  <div *ngIf="item.icon" class="small-icon mr-2 flex items-center">
+    <i
+      [ngClass]="item.readOnly ? 'm-auto text-bl-grey-400' : 'm-auto text-bl-grey-500'"
+      [class]="item.icon"
+    ></i>
+  </div>
+  <div class="truncate">{{ item.title }}</div>
+</ng-template>
+
+<ng-template #defaultOptionSelectedTpl let-item>
+  <div *ngIf="item.icon" class="small-icon mr-2 flex items-center">
+    <i [ngClass]="item.icon" class="m-auto text-bl-grey-500"></i>
+  </div>
+  <div class="w-full font-medium truncate">
+    {{ item.title }}
+  </div>
+  <div class="flex justify-end float-right items-center">
+    <i class="fal fa-check align-middle text-xl text-bl-orange-500"></i>
+  </div>
+</ng-template>

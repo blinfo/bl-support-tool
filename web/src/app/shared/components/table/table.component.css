@@ -1,0 +1,88 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@swimlane/ngx-datatable/index.css';
+@import '~@swimlane/ngx-datatable/assets/icons.css';
+
+.ngx-datatable > div {
+  display: inline-block;
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: column;
+}
+
+.datatable-scroll-extra-bottom-margin .datatable-scroll {
+  margin-bottom: 6rem;
+}
+
+.datatable-icon-sort-unset::before {
+  visibility: hidden;
+}
+
+.bg-white-gradient {
+  box-shadow: 0 -8px 40px 25px #fff;
+}
+
+.datatable-header {
+  border-bottom: 1px solid var(--bl-grey-200);
+  height: auto !important;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 0.75rem;
+  margin-top: 0.75rem;
+  color: var(--bl-grey-500);
+}
+
+.datatable-header-inner {
+  width: 100% !important;
+}
+
+.datatable-header-cell-template-wrap {
+  display: flex;
+}
+
+.datatable-header-cell-template-wrap .sort-btn {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 0.25rem;
+}
+
+.datatable-body-cell {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.datatable-row-wrapper {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  border-bottom: 1px solid var(--bl-grey-200);
+  color: var(--bl-grey-900);
+}
+
+.datatable-row-wrapper:last-child {
+  border-bottom: none;
+}
+
+.datatable-row-wrapper:hover {
+  background-color: var(--bl-grey-100);
+  transition-property: background;
+  transition-duration: 0.3s;
+  transition-timing-function: linear;
+  cursor: pointer;
+}
+
+.form-checkbox:focus {
+  box-shadow: 0 0 0 3px rgba(243, 157, 45, 0.5);
+  border-color: var(--bl-orange-500);
+}
+
+.datatable-scroll {
+  display: block !important;
+  width: 100% !important;
+}
+
+.datatable-body-cell-label, .datatable-body-row, .datatable-row-center {
+  width: 100% !important;
+}
+
+.datatable-bottom-4rem {
+  margin-bottom: 6rem;
+}

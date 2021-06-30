@@ -1,0 +1,104 @@
+<div class="mb-2 w-full flex flex-col">
+  <div class="pb-6">
+  <app-secret-popup
+    *ngIf="hasAccessToSecretMenu$ | async"
+    [icon]="'far fa-user-secret text-lg'"
+    [publicKey]="company?.publicKey"
+    [email]="company?.email"
+  ></app-secret-popup>
+  </div>
+  <div class="flex md:flex-row w-full flex-col items-start md:pr-0 pr-2">
+    <div class="w-full" [ngClass]="{ 'grid-container': !multipleColumns }">
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ publicKeyText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.publicKey }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ databaseNameText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.databaseName }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ idText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.id }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ orgNumberText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.orgNumber }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ firmCustomerNumberText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.firmCustomerNumber }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ hostIdText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.hostId }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ allocatingCustomerNumberText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.allocatingCustomerNumber }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ connectedToBlAppText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.isConnectedToBlApp }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ payingCustomerNumberText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.payingCustomerNumber }}
+        </div>
+      </div>
+      <div
+        [ngClass]="{ 'header-item': !multipleColumns }"
+        class="flex py-2 text-sm justify-between pr-5"
+      >
+        <div class="text-bl-grey-500">{{ emailText }}</div>
+        <div class="text-bl-grey-900 text-right">
+          {{ company?.email }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

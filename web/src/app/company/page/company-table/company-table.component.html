@@ -1,0 +1,88 @@
+<app-bl-table [dataSource]="companies$ | async" (rowClick)="rowClick($event)">
+  <ng-container filterContent>
+    <app-search name="Search" [items]="searchValues" [selected]="selectedSearchValue"></app-search>
+  </ng-container>
+
+  <app-bl-table-view desktop>
+    <ng-template columnHeader="ID" flexWidth="1" let-row columnSortKey="sort-id">
+      <div class="truncate">
+        {{ row.id }}
+      </div>
+    </ng-template>
+
+    <ng-template columnHeader="Namn" flexWidth="3" let-row columnSortKey="sort-name">
+      <div class="truncate">{{ row.name }}</div>
+    </ng-template>
+
+    <ng-template columnHeader="Företagsnyckel" flexWidth="4" let-row columnSortKey="sort-publicKey">
+      <div class="truncate">{{ row.publicKey }}</div>
+    </ng-template>
+
+    <ng-template
+      columnHeader="Betalandekundnummer"
+      flexWidth="2"
+      columnHeaderClass="text-right w-4/5"
+      let-row
+      columnSortKey="sort-payingCustomerNumber"
+    >
+      <div class="flex justify-end w-4/5">
+        <p class="truncate">{{ row.payingCustomerNumber }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      columnHeader="Allokerandekundnummer"
+      flexWidth="2"
+      columnHeaderClass="text-right w-4/5"
+      let-row
+      columnSortKey="sort-allocatingCustomerNumber"
+    >
+      <div class="flex justify-end w-4/5">
+        <p class="truncate">{{ row.allocatingCustomerNumber }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      columnHeader="Byråkundnummer"
+      flexWidth="2"
+      columnHeaderClass="text-right w-4/5"
+      let-row
+      columnSortKey="sort-firmCustomerNumber"
+    >
+      <div class="flex justify-end w-4/5">
+        <p class="truncate">{{ row.firmCustomerNumber }}</p>
+      </div>
+    </ng-template>
+
+    <ng-template
+      columnHeader="BL App"
+      flexWidth="1"
+      columnHeaderClass="text-right w-4/5"
+      let-row
+    >
+      <div
+        class="flex justify-end w-4/5"
+        *ngIf="row.isConnectedToBlApp"
+        matTooltip="Ansluten till app.bjornlunden.se"
+        [ngStyle]="{ opacity: '1.0' }"
+      >
+<!--        <i class="fal fa-user-crown fa-fw text-bl-blue mr-1"></i>-->
+        <img class='w-6 h-6' src="../../../../assets/images/bl-round.png">
+      </div>
+    </ng-template>
+  </app-bl-table-view>
+
+  <!-- Mobile -->
+  <app-bl-table-view mobile>
+    <ng-template columnHeader="" flexWidth="1" let-row columnSortKey="sort-date">
+      <div class="flex w-4/5">
+        <p class="truncate">{{ row.publicKey }}</p>
+      </div>
+    </ng-template>
+    <ng-template columnHeader="" flexWidth="1" let-row>
+      <div class="flex justify-end">
+        <p class="truncate">{{ row.name }}</p>
+      </div>
+    </ng-template>
+  </app-bl-table-view>
+</app-bl-table>

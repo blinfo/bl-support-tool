@@ -1,0 +1,25 @@
+<main
+  class="flex flex-1 justify-between flex-col max-h-screen min-w-96 min-h-96 p-5 overflow-hidden bg-bl-grey-100"
+>
+  <section class="flex justify-between">
+    <h3 class="text-lg leading-6 font-medium text-bl-grey-900">{{ data.title }}</h3>
+    <i class="ml-5 fal fa-times text-xl" (click)="close()"></i>
+  </section>
+  <section>
+    <ng-container #dialogContainer></ng-container>
+  </section>
+  <section class="flex w-full justify-end border-t border-bl-grey-200 pt-5">
+    <button
+      class="bl-button bl-button-secondary"
+      (click)="onCancelButtonClick({ event: 'cancel', data: data })"
+    >
+      {{ data.cancelButtonText || 'Avbryt' }}
+    </button>
+    <button
+      class="ml-2 bl-button bl-button-primary"
+      (click)="onConfirmButtonClick({ event: 'confirm', data: data })"
+    >
+      {{ data.confirmButtonText || 'Spara' }}
+    </button>
+  </section>
+</main>

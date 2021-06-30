@@ -1,0 +1,114 @@
+<form
+  novalidate
+  [formGroup]="userRightForm"
+  (ngSubmit)="save(userRightForm)"
+  class="flex flex-col md:flex-row my-5 pt-5 border-t border-bl-grey-200"
+>
+  <div class="w-full md:w-1/2">
+    <div class="flex text-bl-grey-900 font-medium text-lg">
+      <span>Rättigheter</span>
+      <div
+        *ngIf="!isEditMode && hasEditRights$ | async"
+        class="cursor-pointer"
+        matTooltip="Redigera"
+        (click)="editMode()"
+      >
+        <i class="far fa-edit ml-2 fa-fw"></i>
+      </div>
+    </div>
+    <div class="text-bl-grey-500 font-normal text-sm pb-4">
+      Här ser du vilka tjänster användaren har behörighet till i det valda företaget
+    </div>
+  </div>
+
+  <div formArrayName="userRights" class="w-full md:w-1/2 flex flex-col text-sm">
+    <div
+      class="flex justify-between pl-5 hover:bg-bl-blue-100 rounded-l property-div"
+      *ngFor="let userRight of userRights.controls; let i = index"
+    >
+      <section [formGroupName]="i" class="w-full flex flex-col">
+        <ng-container *ngIf="isEditMode; else noEdit">
+          <div class="flex justify-between w-full">
+            <div class="flex items-center">
+              <mat-checkbox
+                formControlName="value"
+                [checked]="userRight.get('value').value"
+              ></mat-checkbox>
+              <span class="ml-4">{{ userRight.get('property').value.key | userRight }}</span>
+            </div>
+            <div
+              class="remove-div text-bl-red-500 mr-5 cursor-pointer text-xl"
+              (click)="removeProperty(i)"
+            >
+              <span matTooltip="Ta bort">-</span>
+            </div>
+          </div>
+          <div *ngIf="userRight.get('additionalSetting').value">
+            <ng-container
+              *ngIf="
+                userRight.get('property').value.key === 'attest' && userRight.get('value').value
+              "
+            >
+              <app-form-radio
+                [form]="userRight.get('additionalSetting')"
+                [config]="attestFieldConfig"
+              ></app-form-radio>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                userRight.get('property').value.key === 'receiptManagement' &&
+                userRight.get('value').value
+              "
+            >
+              <app-form-radio
+                [form]="userRight.get('additionalSetting')"
+                [config]="receiptManagementFieldConfig"
+              ></app-form-radio>
+            </ng-container>
+          </div>
+        </ng-container>
+
+        <ng-template #noEdit>
+          <div class="py-2 flex items-center">
+            <div [outerHTML]="userRight.get('value').value | booleanChecked"></div>
+            <div class="ml-4">{{ userRight.get('property').value.key | userRight }}</div>
+            <ng-container *ngIf="userRight.get('property').value.key === 'attest'">
+              <ng-container
+                ><span class="ml-1">{{
+                  '  - ' +
+                    (userRight.get('additionalSetting').value.value
+                      ? attestFieldConfig[1].label
+                      : attestFieldConfig[0].label)
+                }}</span></ng-container
+              >
+            </ng-container>
+            <ng-container *ngIf="userRight.get('property').value.key === 'receiptManagement'">
+              <ng-container
+                ><span class="ml-1">{{
+                  '- ' +
+                    (userRight.get('additionalSetting').value.value
+                      ? receiptManagementFieldConfig[1].label
+                      : receiptManagementFieldConfig[0].label)
+                }}</span></ng-container
+              >
+            </ng-container>
+          </div>
+        </ng-template>
+      </section>
+    </div>
+    <div *ngIf="isEditMode" class="pl-5 py-2 cursor-pointer hover:bg-bl-blue-100 rounded-l">
+      <app-add-user-right
+        [userRights]="selectedUserRights"
+        [isAddNewMode]="isAddNewMode"
+        (propertyEvent)="addNewUserRight($event)"
+      ></app-add-user-right>
+    </div>
+
+    <div *ngIf="isEditMode" class="flex justify-end my-5 pt-5 border-t border-bl-grey-200">
+      <button class="bl-button bl-button-secondary mr-2" (click)="cancel()">Avbryt</button>
+      <button type="submit" class="bl-button bl-button-primary" [disabled]="userRightForm.pristine">
+        Spara
+      </button>
+    </div>
+  </div>
+</form>

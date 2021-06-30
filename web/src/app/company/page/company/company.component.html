@@ -1,0 +1,19 @@
+<section class="flex flex-row w-full">
+  <app-company-details
+    [ngClass]="multipleDetailColumns ? 'w-1/2' : 'w-full'"
+    [multipleColumns]="multipleDetailColumns"
+    [company]="company"
+  ></app-company-details>
+  <div class="border-l border-bl-grey-200 w-1/2" *ngIf="companySubscription$ | async as subscription">
+    <app-subscription-details [subscription]="subscription"></app-subscription-details>
+  </div>
+</section>
+<ng-container *ngIf="bankStatus$ | async as bankStatus">
+  <app-detail-card [card]="bankStatus" [editable]="false"></app-detail-card>
+</ng-container>
+<ng-container *ngIf="integrations$ | async as integration">
+  <app-detail-card [card]="integration" [editable]="false"></app-detail-card>
+</ng-container>
+<ng-container *ngIf="skvConnection$ | async as skvConnection">
+  <app-detail-card [card]="skvConnection" [editable]="false"></app-detail-card>
+</ng-container>

@@ -1,0 +1,18 @@
+<div class="w-full h-full">
+  <div style="height: 620px" *ngIf="chartData$ | async as chartData">
+    <ngx-charts-bar-vertical
+      [results]="chartData.results"
+      [xAxisLabel]="chartData.xAxisLabel"
+      [legendTitle]="chartData.legendTitle"
+      [yAxisLabel]="chartData.yAxisLabel"
+      [legend]="chartData.showLegend"
+      [showXAxisLabel]="chartData.showXAxisLabel"
+      [showYAxisLabel]="chartData.showYAxisLabel"
+      [xAxis]="chartData.showXAxis"
+      [yAxis]="chartData.showYAxis"
+      [gradient]="chartData.showGradient"
+      [scheme]="colorScheme"
+    >
+    </ngx-charts-bar-vertical>
+  </div>
+</div>

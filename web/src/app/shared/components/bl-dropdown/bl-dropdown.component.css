@@ -1,0 +1,59 @@
+:host {
+  display: inline-block;
+  font-size: inherit;
+}
+.root {
+  cursor: pointer;
+  user-select: none;
+}
+.small-icon {
+  font-size: 18px;
+}
+.cdk-virtual-scroll-viewport {
+  display: block;
+  position: relative;
+  contain: strict;
+  transform: translateZ(0);
+  will-change: scroll-position;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+::ng-deep .cdk-virtual-scroll-content-wrapper {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  contain: content !important;
+  width: inherit !important;
+  padding-right: inherit;
+}
+
+.option-container {
+  box-sizing: border-box;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  position: fixed;
+  user-select: none;
+  z-index: 999999;
+}
+::-webkit-scrollbar {
+  width: 0.5rem;
+  border-radius: 0.5rem;
+  background: #ffffff;
+}
+::-webkit-scrollbar-track {
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 0.5rem;
+  margin-bottom: 0;
+}
+:hover::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}

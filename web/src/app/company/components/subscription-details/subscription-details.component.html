@@ -1,0 +1,78 @@
+<main class="ml-5 pt-3">
+  <h2 class="text-lg font-normal">{{ subscriptionText }}</h2>
+  <div class="text-xs font-normal text-bl-grey-500">
+    <section *ngIf="subscription.solution.subscribers > 0">
+      <section class="flex flex-row justify-between mt-2">
+        <span
+          >{{ subscription.solution.name }} ({{ subscription.solution.subscribers }}
+          {{ userText }})</span
+        >
+        <span>{{ subscription.solution.totalCost }}:-</span>
+      </section>
+      <section class="ml-3 flex flex-col text-bl-grey-400">
+        <div class="flex flex-row justify-between">
+          <span>- {{ basePriceText }} (1 {{ userIncludedText }})</span>
+          <span>{{ subscription.solution.price }}:-</span>
+        </div>
+        <div *ngIf="additionalSolutionUsers > 0" class="flex flex-row justify-between">
+          <span>- {{ extraUserText }} ({{ additionalSolutionUsers }} {{ userText }})</span>
+          <span
+            >{{
+              additionalSolutionUsers * subscription.solution.additionalSubscriptionPrice
+            }}:-</span
+          >
+        </div>
+        <div
+          *ngIf="subscription.solution.allInclusiveSubscribers > 0"
+          class="flex flex-row justify-start"
+        >
+          <span
+            >- {{ blAllInclusiveText }} ({{ subscription.solution.allInclusiveSubscribers }}
+            {{ userText }})</span
+          >
+        </div>
+      </section>
+    </section>
+    <div *ngFor="let module of subscription.modules">
+      <section class="flex flex-row justify-between mt-3">
+        <span
+          >{{ module.name }}
+          <span *ngIf="module.type === moduleType.INTERNAL"
+            >({{ module.subscribers }} {{ userText }})</span
+          ></span
+        >
+        <span>{{ module.totalCost }}:-</span>
+      </section>
+      <section
+        class="ml-3 flex flex-col text-bl-grey-400"
+        *ngIf="module.type === moduleType.INTERNAL"
+      >
+        <div class="flex flex-row justify-between">
+          <span
+            >-
+            {{
+              module.paymentType === paymentType.COMPANY ? modulePriceText : pricePerUserText
+            }}</span
+          >
+          <span>{{ module.price }}:-</span>
+        </div>
+        <div *ngIf="module.allInclusiveSubscribers > 0" class="flex flex-row justify-start">
+          <span
+            >- {{ blAllInclusiveText }} ({{ module.allInclusiveSubscribers }} {{ userText }})</span
+          >
+        </div>
+      </section>
+    </div>
+    <section
+      *ngIf="subscription.integrationDiscount !== 0"
+      class="flex flex-row justify-between mt-3"
+    >
+      <span>{{ integrationDiscountText }})</span>
+      <span>{{ subscription.integrationDiscount }}:-</span>
+    </section>
+    <div class="flex flex-row justify-between text-bl-orange-500 text-xs mt-3">
+      {{ monthlyCostText }}
+      <span>{{ subscription.subscriptionCost }}:-</span>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,53 @@
+.sidenav-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  background: linear-gradient(193.04deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 55.87%),
+  var(--bl-blue-500);
+}
+
+/* CSS för scrollbar */
+/*mat-sidenav-content::-webkit-scrollbar {*/
+/*  width: 0.5rem;*/
+/*  background: #f1f6f8;*/
+/*}*/
+
+/*.mat-sidenav-content>div {*/
+/*  margin-right: -1.25rem;*/
+/*  padding-right: 0.75rem;*/
+/*}*/
+
+mat-sidenav-content::-webkit-scrollbar-track {
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+mat-sidenav-content>div::-webkit-scrollbar-thumb {
+  background: #f1f6f8;
+  border-radius: 0.5rem;
+  margin-bottom: 0;
+}
+
+mat-sidenav-content>div:hover::-webkit-scrollbar-thumb {
+  background: #CBD5E0;
+}
+
+mat-sidenav-content>div::-webkit-scrollbar-thumb:hover {
+  background: #718096;
+}
+
+.main-slider {
+  background-color: white;
+  display: inline-block;
+  width: 3px;
+  height: 45px;
+  position: absolute;
+  z-index: 1200;
+  top: 0;
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+}
+
+.main-content {
+  max-width: 1280px;
+}

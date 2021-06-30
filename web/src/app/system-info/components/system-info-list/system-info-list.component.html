@@ -1,0 +1,75 @@
+<main>
+  <div class="flex justify-end">
+    <button *ngIf="hasAccess" (click)="createEntry()" class="bl-button bl-button-primary">
+      {{ TEXT.list.newButtonText }}
+    </button>
+  </div>
+  <div *ngFor="let systemInfo of systemInfo$ | async; let i = index">
+    <div
+      class="flex flex-col px-8 pt-8 pb-3 mt-5 rounded"
+      [style.backgroundColor]="
+        systemInfo.level === 'WARNING' ? 'rgb(252,235,234)' : 'rgb(238,246,249)'
+      "
+      [style.color]="systemInfo.level === 'WARNING' ? 'rgb(102,23,21)' : 'rgb(40,73,86)'"
+    >
+      <div class="flex flex-row">
+        <div class="w-full md:w-1/2 mr-8">
+          <div class="flex flex-col text-sm">
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.level }}</div>
+              <div class="font-normal">{{ systemInfo.level | titlecase }}</div>
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.label }}</div>
+              <div class="font-normal">
+                {{ systemInfo.label || 'login, bank, start' | titlecase }}
+              </div>
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.active }}</div>
+              <div [outerHTML]="systemInfo.active | booleanChecked"></div>
+              <!-- <div class="font-medium capitalize">Aktiv:</div>
+               <div class="font-normal">{{ systemInfo.active }}</div> -->
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.message }}</div>
+              <div class="font-normal pl-5">{{ systemInfo.message }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 mr-5 border-l border-bl-grey-300 pl-8">
+          <div class="flex flex-col text-sm">
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.icon }}</div>
+              <div class="font-normal">{{ systemInfo.icon || ' ' }}</div>
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.expireAt }}</div>
+              <div class="font-normal">{{ systemInfo.expireAt | date }}</div>
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.createdAt }}</div>
+              <div class="font-normal">{{ systemInfo.createdAt | date }}</div>
+            </div>
+            <div class="justify-between flex py-2">
+              <div class="font-medium capitalize">{{ TEXT.list.id }}</div>
+              <div class="font-normal">{{ systemInfo.id }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div  *ngIf="hasAccess" class="justify-end flex flex-row mr-5 pt-5">
+        <div (click)="deleteEntry(systemInfo)" class="mr-3 cursor-pointer text-right">
+          <i
+            class="far fa-trash-alt h-6 w-6 fa-lg text-bl-red-500"
+            fill="none"
+            viewBox="0 0 24 24"
+          ></i>
+        </div>
+        <div (click)="editEntry(systemInfo)" class="cursor-pointer text-right">
+          <i class="far fa-edit h-6 w-6 fa-lg text-bl-grey-900" fill="none" viewBox="0 0 24 24"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,58 @@
+<div *ngIf="!editMode && hasEditRights$ | async" class="justify-start flex w-fullv -mt-5">
+  <div (click)="edit()" class="cursor-pointer text-bl-grey-900">
+    <i matTooltip="Redigera användarens uppgifter" class="far fa-edit fa-fw text-lg"> </i>
+  </div>
+</div>
+<form
+  novalidate
+  [formGroup]="userForm"
+  (ngSubmit)="submit()"
+  (cancel)="cancel()"
+  class="my-2 w-full"
+>
+  <div class="flex w-full flex-col items-start md:pr-0 pr-2">
+    <div class="w-full grid-container">
+      <div class="flex py-2 text-sm justify-between pr-5 header-item">
+        <div class="w-1/2 text-bl-grey-500">Namn</div>
+        <input [ngClass]="editMode ? 'bl-input bg-white' : ''" class="w-1/2 text-bl-grey-900 bg-transparent" formControlName="name" type="text" />
+      </div>
+      <div class="flex py-2 text-sm justify-between pr-5 header-item">
+        <div class="text-bl-grey-500">Id</div>
+        <input class="w-1/2 text-bl-grey-900 bg-transparent" formControlName="id" type="text" />
+      </div>
+      <div class="flex py-2 text-sm justify-between pr-5 header-item">
+        <div class="text-bl-grey-500">Personnummer</div>
+        <input
+          [ngClass]="editMode ? 'bl-input bg-white' : ''"
+          class="w-1/2 text-bl-grey-900 bg-transparent"
+          formControlName="socialSecurityNumber"
+          type="text"
+        />
+      </div>
+      <div class="flex py-2 text-sm justify-between pr-5 header-item">
+        <div class="text-bl-grey-500">Skapad</div>
+        <input
+          class="w-1/2 text-bl-grey-900 bg-transparent"
+          formControlName="createdAt"
+          type="text"
+        />
+      </div>
+      <div class="flex py-2 text-sm justify-between pr-5 header-item">
+        <div class="text-bl-grey-500">Senast inloggad</div>
+        <input
+          class="w-1/2 text-bl-grey-900 bg-transparent"
+          formControlName="lastLogin"
+          type="text"
+        />
+      </div>
+    </div>
+    <div class="flex w-full justify-end mb-2" *ngIf="editMode">
+      <button class="bl-button bl-button-secondary" type="button" (click)="cancel()">
+        {{ cancelText }}
+      </button>
+      <button [disabled]="!userForm.valid || userForm.pristine" class="ml-2 bl-button bl-button-primary" type="submit">
+        {{ saveText }}
+      </button>
+    </div>
+  </div>
+</form>

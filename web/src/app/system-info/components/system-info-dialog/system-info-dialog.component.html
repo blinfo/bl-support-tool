@@ -1,0 +1,90 @@
+<main>
+  <div class="flex flex-col py-3 mt-5">
+    <div [formGroup]="systemInfoForm" class="flex flex-row">
+      <!-- [style.backgroundColor]="data.level === 'WARNING' ? 'rgb(252,235,234)' : 'rgb(238,246,249)'"
+           [style.color]="data.level === 'WARNING' ? 'rgb(102,23,21)' : 'rgb(40,73,86)'" -->
+      <div class="w-full pr-1">
+        <div class="flex flex-col text-sm">
+          <div class="justify-between flex mt-5 pb-5 border-b border-bl-grey-200">
+            <div class="font-medium capitalize">{{ TEXT.list.level }}</div>
+            <select class="bl-input w-1/5" formControlName="level">
+              <option *ngFor="let lev of levels" [ngValue]="lev.value">
+                {{ lev.title }}
+              </option>
+            </select>
+          </div>
+          <div class="justify-between flex flex-row mt-5 pb-5 border-b border-bl-grey-200">
+            <div class="font-medium capitalize">{{ TEXT.list.label }}</div>
+            <div class="flex flex-col">
+              <div class="flex flex-row justify-between items-center">
+                <p class="pr-8">{{ TEXT.login }}</p>
+                <input
+                  class="form-checkbox text-bl-orange-500"
+                  type="checkbox"
+                  formControlName="login"
+                  value="true"
+                />
+              </div>
+              <div class="flex flex-row justify-between items-center">
+                <p class="pr-8">{{ TEXT.start }}</p>
+                <input
+                  class="form-checkbox text-bl-orange-500"
+                  type="checkbox"
+                  formControlName="start"
+                  value="true"
+                />
+              </div>
+              <div class="flex flex-row justify-between items-center">
+                <p class="pr-8">{{ TEXT.bank }}</p>
+                <input
+                  class="form-checkbox text-bl-orange-500"
+                  type="checkbox"
+                  formControlName="bank"
+                  value="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="justify-between items-center flex pb-5 mt-5 border-b border-bl-grey-200">
+            <div class="font-medium capitalize">{{ TEXT.list.active }}</div>
+            <input
+              class="form-checkbox text-bl-orange-500"
+              type="checkbox"
+              formControlName="active"
+              value="true"
+            />
+          </div>
+          <div class="justify-between flex flex-row pb-5 mt-5 border-b border-bl-grey-200">
+            <div class="font-medium">{{ TEXT.list.expireAt }}</div>
+            <div class="flex flex-row w-2/5">
+              <mat-form-field class="justify-end bl-input w-1/2 mr-2">
+                <mat-label>{{ TEXT.date }}</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="expireAtDate" />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker panelClass="bl-input" #picker></mat-datepicker>
+              </mat-form-field>
+              <input
+                class="bl-input w-1/2"
+                placeholder="Klockslag"
+                aria-label="24hr format"
+                [ngxTimepicker]="fullTime"
+                [format]="24"
+                formControlName="expireAtTime"
+                readonly
+              />
+              <ngx-material-timepicker
+                [appendToInput]="true"
+                style="z-index: 1001; position: absolute"
+                #fullTime
+              ></ngx-material-timepicker>
+            </div>
+          </div>
+          <div class="justify-between flex flex-row pb-2 pt-5">
+            <div class="font-medium capitalize">{{ TEXT.list.message }}</div>
+            <textarea class="bl-input w-2/3" type="textarea" formControlName="message"> </textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

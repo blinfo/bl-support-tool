@@ -1,0 +1,14 @@
+<app-bl-dropdown
+  [items]="options"
+  (valueChange)="add($event)"
+  [titleClass]="'text-base font-medium'"
+>
+  <ng-template appDropdownRootNotSelected>
+    <section class="text-bl-grey-900 cursor-pointer text-base">
+      <span>+ Lägg till ny</span>
+    </section>
+  </ng-template>
+  <ng-template appDropdownOption let-item>
+    <div class="text-base">{{ item.title | userRight }}</div>
+  </ng-template>
+</app-bl-dropdown>

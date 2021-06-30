@@ -1,0 +1,12 @@
+<div class="flex flex-col md:flex-row my-5 pt-5 border-t border-bl-grey-200">
+  <div class="w-full md:w-1/2">
+    <div class="text-bl-grey-900 font-medium text-lg">Abonnemang</div>
+    <div class="text-bl-grey-500 font-normal text-sm pb-4">
+      Här ser du vilka tjänster användaren har i det valda företaget
+    </div>
+  </div>
+  <div class="w-full md:w-1/2 ml-5 flex flex-col text-sm">
+    <app-subscription [selectedSubscription]="userSubscription$ | async"></app-subscription>
+    <ng-container></ng-container>
+  </div>
+</div>

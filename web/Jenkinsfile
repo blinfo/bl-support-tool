@@ -1,0 +1,112 @@
+// LintURL: https://jenkins2.blinfo.se/pipeline-model-converter/validate
+pipeline {
+  agent any
+  stages {
+    stage ('Init') {
+      parallel {
+        stage ('release') {
+          when {
+            tag 'v*'
+          }
+          steps {
+            script {
+              TAG="${TAG_NAME}"
+            }
+          }
+        }
+        stage ('NON release') {
+          when {
+            not {
+              tag 'v*'
+            }
+          }
+          steps {
+            script {
+              TAG="${BRANCH_NAME}"+'-'+"${GIT_COMMIT}"
+            }
+          }
+        }
+      }
+    }
+    stage ('Build') {
+      steps {
+        script {
+          if(params.target == 'production' || env.BRANCH_NAME == 'master') {
+            BUILDSCRIPT='buildprod'
+          } else {
+            BUILDSCRIPT='buildlocal'
+          }
+        }
+        sh "docker image build --build-arg buildscript=${BUILDSCRIPT} -t ${APP_IMAGE}:${BUILD_TAG} ."
+      }
+    }
+    stage ('Tagging image') {
+      steps {
+        sh """
+          docker image tag ${APP_IMAGE}:${BUILD_TAG} ${APP_IMAGE}:${TAG}
+          docker image tag ${APP_IMAGE}:${BUILD_TAG} ${APP_IMAGE}:latest
+        """
+      }
+    }
+    stage ('Docker push') {
+      environment {
+        DOCKER_PUSH = credentials('docker-credentials')
+      }
+      steps {
+        retry(3) {
+          sh """
+            echo ${DOCKER_PUSH_PSW} | docker login ${IMAGE_REGISTRY} -u ${DOCKER_PUSH_USR} --password-stdin
+            docker image push ${APP_IMAGE}:${TAG}
+            docker image push ${APP_IMAGE}:latest
+          """
+        }
+      }
+    }
+    stage ('Deploy') {
+      when {
+        beforeAgent true
+        expression {
+          return params.target == 'production'
+        }
+      }
+      steps {
+        script {
+          def attemptCount = 0
+          retry(3) {
+            if ( attemptCount > 0) {
+              sleep(15)
+            }
+            attemptCount++
+            echo "Deploy attempt ${attemptCount}"
+                sh "docker run --rm ${ELASTX_TOOLS} redeploy ${ELASTX_CREDENTIALS_USR} ${ELASTX_CREDENTIALS_PSW} ${ENV_NAME_PROD} ${NODE_ID_PROD} ${TAG}"
+          }
+        }
+      }
+    }
+  }
+  options {
+    buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '')
+  }
+  post {
+    failure {
+      script {
+        COMMITER_EMAIL = sh(returnStdout: true, script: 'git log -1 --pretty=format:"%ae"')
+      }
+      emailext body: '${JELLY_SCRIPT,template="bl"}', subject: "${JOB_NAME} build ${BUILD_NUMBER} ${currentBuild.currentResult}", to: "${COMMITER_EMAIL}"
+    }
+  }
+  environment {
+    IMAGE_REGISTRY = 'docker.repos.blinfo.se'
+    APP_IMAGE = "${IMAGE_REGISTRY}/blinfo/blapp-support-front"
+    ELASTX_TOOLS = "${IMAGE_REGISTRY}/blinfo/elastx-tools"
+    ENV_NAME_PROD = 'env-6961485'
+    NODE_ID_PROD = '85677'
+    ELASTX_CREDENTIALS = credentials('drift-elastx')
+  }
+  parameters {
+    choice(
+    name: 'target',
+    choices: ['no_deploy','production'],
+    description: 'Where to deploy the build.' )
+  }
+}

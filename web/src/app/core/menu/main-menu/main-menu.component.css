@@ -1,0 +1,13 @@
+.activeMenuState a,
+.nav-menu-items:hover {
+  color: #ffffff;
+}
+
+.activeSubMenuState,
+.activeMobileSubMenuState {
+  opacity: 1 !important;
+}
+
+.activeSubMenuState span {
+  color: var(--bl-grey-900);
+}

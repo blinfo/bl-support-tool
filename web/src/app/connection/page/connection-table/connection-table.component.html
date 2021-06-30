@@ -1,0 +1,41 @@
+<app-bl-table [dataSource]="connections$ | async" (rowClick)="onConnectionClick($event)">
+  <ng-container filterContent>
+    <app-filter-text name="Search" [debounceTime]="200"></app-filter-text>
+  </ng-container>
+
+  <app-bl-table-view desktop>
+    <ng-template columnHeader="ID" flexWidth="1" let-row columnSortKey="sort-id">
+      <div class="truncate">
+        {{ row.id }}
+      </div>
+    </ng-template>
+
+    <ng-template columnHeader="Nyckel" flexWidth="5" let-row>
+      <div class="truncate">{{ row.publicKey }}</div>
+    </ng-template>
+
+    <ng-template columnHeader="Email" flexWidth="4" let-row>
+      <div class="truncate">{{ row.email }}</div>
+    </ng-template>
+
+    <ng-template columnHeader="Molnanvändare" flexWidth="1" let-row>
+      <div class="flex justify-end mr-5">
+        <p class="truncate">{{ row.cloudUserId }}</p>
+      </div>
+    </ng-template>
+  </app-bl-table-view>
+
+  <!-- Mobile -->
+  <app-bl-table-view mobile>
+    <ng-template columnHeader="" flexWidth="1" let-row columnSortKey="sort-date">
+      <div class="flex w-4/5">
+        <p class="truncate">{{ row.publicKey }}</p>
+      </div>
+    </ng-template>
+    <ng-template columnHeader="" flexWidth="1" let-row>
+      <div class="flex justify-end">
+        <p class="truncate">{{ row.email }}</p>
+      </div>
+    </ng-template>
+  </app-bl-table-view>
+</app-bl-table>
