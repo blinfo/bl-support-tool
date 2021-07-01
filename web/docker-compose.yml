@@ -26,17 +26,5 @@ services:
       - variables.conf
     ports:
       - 8084:8080
-
-  # db:
-  #   image: blinfo/blapp-db
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: root
-  #     MYSQL_DATABASE: blapp
-  #     MYSQL_USER: blapp
-  #     MYSQL_PASSWORD: bl4pp1t15
-  #   volumes:
-  #     - db-data:/var/lib/mysql
-  #   ports:
-  #     - 3306:3306
 volumes:
   db-data:

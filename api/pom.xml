@@ -11,11 +11,11 @@
     <groupId>se.bjornlunden</groupId>
     <artifactId>blapp-support-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>blapp-support-api</name>
-    <description>Blapp Support/Sale project</description>
+    <name>bl-support-api</name>
+    <description>Bl Support/Sale project</description>
 
     <properties>
-        <java.version>14</java.version>
+        <java.version>15</java.version>
         <azure.version>2.3.3</azure.version>
     </properties>
 
@@ -107,6 +107,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
             </plugin>
         </plugins>
     </build>
